@@ -36,9 +36,7 @@ jobs:
                 
       - name: Show submodule tags
         run: |
-          git submodule foreach --recursive '
-          echo "=== $name ==="
-          git describe --tags || true
+          git submodule foreach --recursive "echo === \$name === ; git describe --tags || true"
           
       - name: Verify checkout
         run: |
