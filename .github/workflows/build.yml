@@ -32,10 +32,12 @@ jobs:
             -w /workspace \
             ghcr.io/openvario/ovbuild-container:latest \
             bash -c '
-              source oe-init-build-env .
+              ls
+              source openembedded-core/oe-init-build-env .
               
               sed -i "/^MACHINE/d" conf/local.conf
               echo "MACHINE = \"${{ matrix.machine }}\"" >> conf/local.conf
+              more conf/local.conf
 
               bitbake openvario-image
             '
