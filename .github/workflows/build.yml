@@ -34,14 +34,15 @@ jobs:
       - name: Build Yocto Image
         run: |
           docker run --rm \
-            -v ${{ github.workspace }}:/workspace \
-            -v /yocto-cache/downloads:/workspace/downloads \
-            -v /yocto-cache/sstate:/workspace/sstate \
+            -v ${{ github.workspace }}:/workdir \
+            -v /yocto-cache/downloads:/workdir/downloads \
+            -v /yocto-cache/sstate:/workdir/sstate \
             -w /workspace \
             ghcr.io/openvario/ovbuild-container:latest \
             bash -c '
-              unset TEMPLATECONF
-              source openembedded-core/oe-init-build-env build
+              pwd
+              
+              source openembedded-core/oe-init-build-env .
               
               pwd 
               ls -al
