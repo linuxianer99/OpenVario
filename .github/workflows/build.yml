@@ -41,6 +41,7 @@ jobs:
             ghcr.io/openvario/ovbuild-container:latest \
             bash -c '
               pwd
+              id
               
               source openembedded-core/oe-init-build-env .
               
