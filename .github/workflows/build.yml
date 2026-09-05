@@ -37,7 +37,7 @@ jobs:
             -v ${{ github.workspace }}:/workdir \
             -v /yocto-cache/downloads:/workdir/downloads \
             -v /yocto-cache/sstate:/workdir/sstate \
-            -w /workspace \
+            -w /workdir \
             ghcr.io/openvario/ovbuild-container:latest \
             bash -c '
               pwd
