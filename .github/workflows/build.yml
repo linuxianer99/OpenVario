@@ -21,12 +21,29 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+      - name: Fetch tags
+        run: |
+          git fetch --tags --force
 
+          git submodule foreach --recursive '
+          git fetch --tags --force || true
+      
+      - name: Show tags
+        run: |
+          git describe --tags || true
+          git tag -l | tail  
+                
+      - name: Show submodule tags
+        run: |
+          git submodule foreach --recursive '
+          echo "=== $name ==="
+          git describe --tags || true
+          
       - name: Verify checkout
         run: |
           ls -la
           ls -la openembedded-core
-      
+
       - name: Pull Build Container
         run: |
           docker pull ghcr.io/openvario/ovbuild-container:latest
@@ -51,7 +68,7 @@ jobs:
               sed -i "/^MACHINE/d" conf/local.conf
               echo "MACHINE = \"${{ matrix.machine }}\"" >> conf/local.conf
               
-              bitbake openvario-image
+              bitbake u-boot
             '
 
       - name: Upload Artifacts
