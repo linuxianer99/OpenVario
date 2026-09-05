@@ -34,7 +34,7 @@ jobs:
             bash -c '
               ls
               source openembedded-core/oe-init-build-env .
-              
+              ls
               sed -i "/^MACHINE/d" conf/local.conf
               echo "MACHINE = \"${{ matrix.machine }}\"" >> conf/local.conf
               more conf/local.conf
