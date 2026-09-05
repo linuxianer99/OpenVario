@@ -35,8 +35,8 @@ jobs:
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/workdir \
-            -v /yocto-cache/downloads:/workdir/downloads \
-            -v /yocto-cache/sstate:/workdir/sstate \
+            -v /opt/yocto-cache/downloads:/workdir/downloads \
+            -v /opt/yocto-cache/sstate:/workdir/sstate \
             -w /workdir \
             ghcr.io/openvario/ovbuild-container:latest \
             bash -c '
@@ -51,8 +51,6 @@ jobs:
               sed -i "/^MACHINE/d" conf/local.conf
               echo "MACHINE = \"${{ matrix.machine }}\"" >> conf/local.conf
               
-              more conf/local.conf
-
               bitbake openvario-image
             '
 
