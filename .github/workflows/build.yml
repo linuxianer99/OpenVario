@@ -21,13 +21,14 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Fetch tags
+          
+      - name: Fetch tags all
         run: |
           git fetch --tags --force
 
           git submodule foreach --recursive '
-          git fetch --tags --force || true
-      
+            git fetch --tags --force || true
+          '
       - name: Show tags
         run: |
           git describe --tags || true
