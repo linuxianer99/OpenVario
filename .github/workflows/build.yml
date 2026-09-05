@@ -1,0 +1,40 @@
+name: Build OpenVario Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pull Build Container
+        run: |
+          docker pull ghcr.io/openvario/ovbuild-container:latest
+
+      - name: Build Yocto Image
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            -v /yocto-cache/downloads:/workspace/downloads \
+            -v /yocto-cache/sstate:/workspace/sstate \
+            -w /workspace \
+            ghcr.io/openvario/ovbuild-container:latest \
+            bash -c '
+              source oe-init-build-env build
+
+              bitbake openvario-image
+            '
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: openvario-image
+          path: |
+            build/tmp/deploy/images/**
