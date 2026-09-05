@@ -40,12 +40,9 @@ jobs:
             -w /workspace \
             ghcr.io/openvario/ovbuild-container:latest \
             bash -c '
-              ls
-              find meta-openvario -type d | sort
-              find meta-openvario -name local.conf.sample
-              echo "TEMPLATECONF=$TEMPLATECONF"
-              env | grep TEMPLATE
-              source openembedded-core/oe-init-build-env .
+              unset TEMPLATECONF
+              source openembedded-core/oe-init-build-env build
+              
               pwd 
               ls -al
               
